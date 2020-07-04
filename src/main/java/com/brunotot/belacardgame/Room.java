@@ -22,6 +22,26 @@ public class Room {
 
 	private int currentPrimePointsTeam2;
 	
+	private boolean started;
+	
+	public boolean isStarted() {
+		return started;
+	}
+
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+
+	private Player playerToMove;
+	
+	public Player getPlayerToMove() {
+		return playerToMove;
+	}
+
+	public void setPlayerToMove(Player playerToMove) {
+		this.playerToMove = playerToMove;
+	}
+
 	public Player getPlayer1() {
 		return player1;
 	}
@@ -101,15 +121,6 @@ public class Room {
 	public void setCurrentPrimePointsTeam2(int currentPrimePointsTeam2) {
 		this.currentPrimePointsTeam2 = currentPrimePointsTeam2;
 	}
-
-	public Room() {
-		this.totalPointsTeam1 = 0;
-		this.totalPointsTeam2 = 0;
-		this.currentPrimePointsTeam1 = 0;
-		this.currentPrimePointsTeam2 = 0;
-		this.currentPointsTeam1 = 0;
-		this.currentPointsTeam2 = 0;
-	}
 	
 	public Room(Player player1, Player player2, Player player3, Player player4) {
 		this.totalPointsTeam1 = 0;
@@ -122,6 +133,8 @@ public class Room {
 		this.player2 = player2;
 		this.player3 = player3;
 		this.player4 = player4;
+		this.playerToMove = this.player1;
+		this.started = false;
 	}
 	
 	public boolean addPlayer(Player player) {
@@ -154,7 +167,7 @@ public class Room {
 		return true;
 	}
 	
-	public int getTotalPlayersNumber() {
+	public Integer getTotalPlayersNumber() {
 		int total = 0;
 		if (this.player1 != null) {
 			total++;
@@ -169,6 +182,18 @@ public class Room {
 			total++;
 		}
 		return total;
+	}
+
+	public void nextPlayer() {
+		if (this.playerToMove == this.player1) {
+			this.playerToMove = this.player2;
+		} else if (this.playerToMove == this.player2) {
+			this.playerToMove = this.player3;
+		} else if (this.playerToMove == this.player3) {
+			this.playerToMove = this.player4;
+		} else {
+			this.playerToMove = this.player1;
+		}
 	}
 	
 }

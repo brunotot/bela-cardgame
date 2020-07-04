@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Test</title>
+<title>Bela card game</title>
 </head>
 <body>
 	
