@@ -10,6 +10,16 @@ public class Card {
 	
 	private float primeValue;
 
+	private boolean hidden;
+	
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
 	public CardSuit getSuit() {
 		return suit;
 	}
@@ -52,6 +62,7 @@ public class Card {
 		this.rank = rank;
 		this.normalValue = normalValue;
 		this.primeValue = primeValue;
+		this.hidden = false;
 	}
 	
 }

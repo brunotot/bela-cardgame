@@ -1,5 +1,7 @@
 package com.brunotot.belacardgame.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.brunotot.belacardgame.Card;
 import com.brunotot.belacardgame.Player;
 import com.brunotot.belacardgame.Room;
 
@@ -19,6 +21,9 @@ public class GameController {
 	
 	@Autowired
 	Map<String, Room> rooms;
+	
+	@Autowired
+	List<Card> deck;
 	
 	@PostMapping("/start")
 	@ResponseBody
@@ -35,7 +40,7 @@ public class GameController {
 				return "false";
 			}
 		} else {
-			room = new Room(player, null, null, null);
+			room = new Room(player, null, null, null, deck);
 			rooms.put(roomId, room);
 			return "true";
 		}

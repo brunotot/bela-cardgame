@@ -14,12 +14,16 @@
 	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+    <link rel="stylesheet" type="text/css" href="css/game/scoretable.css">
+    <link rel="stylesheet" type="text/css" href="css/main/main.css">
+    <link rel="stylesheet" type="text/css" href="css/game/gametable.css">
 	<script>
 		window.onload = function () {
-			var b = document.getElementById('test');
-			if (<%= nickname.equals(playerNames[3]) %>) {
-				b.disabled = false;
-			}
+			loadCards();
+// 			var b = document.getElementById('test');
+<%-- 			if (<%= nickname.equals(playerNames[3]) %>) { --%>
+// 				b.disabled = false;
+// 			}
 		}
 		var subscription = null;
 		var stompClient = null;
@@ -30,19 +34,33 @@
 		    stompClient = Stomp.over(socket);
 		    stompClient.connect({}, function (frame) {
 		    	stompClient.subscribe('/topic/game/<%= roomId %>', function (room) {
-					console.log("ISUSE");
-		    		var button = document.getElementById('test');
-					var r = JSON.parse(room.body);
-					debugger;
-					if (r.playerToMove.nickname.localeCompare('<%= nickname %>') === 0) {
-						button.disabled = false;
-					} else {
-						button.disabled = true;
-					}
+// 		    		var button = document.getElementById('test');
+// 					var r = JSON.parse(room.body);
+// 					debugger;
+<%-- 					if (r.playerToMove.nickname.localeCompare('<%= nickname %>') === 0) { --%>
+// 						button.disabled = false;
+// 					} else {
+// 						button.disabled = true;
+// 					}
 		    	});
 		    });
 		}
 		
+		function loadCards() {
+			var cards = JSON.parse('<%= Helper.getCards(request, roomId, nickname) %>');
+			debugger;
+			for (var x in cards) {
+				var card = cards[x];
+				var imagePath = "img/cards/";
+				var imageNode = document.createElement("IMG");
+				if (card.hidden) {
+					imageNode.src = imagePath + "SPUSTENA.png";	
+				} else {
+					imageNode.src = imagePath + card.rank + "_" + card.suit.charAt(0) + ".png";
+				}
+				document.getElementById('playerCards').appendChild(imageNode);
+			}
+		}
 		
 		function moveToNextPlayer() {
 			$.ajax({
@@ -58,20 +76,66 @@
 			});
 		}
 	</script>
+	<style>
+		div.inline { float:left; }
+		.clearBoth { clear:both; }
+	</style>
 </head>
 <body>
-	<div id="player-top" style="text-align: center; position: absolute; left: 50%; right: 50%;">
-    	<p><%= playerNames[0] %></p>
-    </div>
-    <div id="player-left" style="text-align: left; position: absolute; top: 50%; left: 0">
-    	<p><%= playerNames[1] %></p>
-    </div>
-    <div id="player-right" style="text-align: right; position: absolute; top: 50%; right: 0">
-    	<p><%= playerNames[2] %></p>
-    </div>
-    <div id="player-bottom" style="text-align: center; position: absolute; bottom: 0; left: 50%; right: 50%;">
-    	<p><%= playerNames[3] %></p>
-    	<button disabled="disabled" onclick="moveToNextPlayer()" id="test">Test</button>
+	<table id="tablica">
+	    <tr id="tableHeader">
+	        <td>Rezultat</td>
+	        <td>Mi</td>
+	        <td>Vi</td>
+	    </tr>
+	    <tr id="currentPrimePoints">
+	        <td>Zvanja</td>
+	        <td id="currentPrimePointsTeamA"></td>
+	        <td id="currentPrimePointsTeamB"></td>
+	    </tr>
+	    <tr id="currentPoints">
+	        <td>Trenutno dijeljenje</td>
+	        <td id="currentPointsTeamA"></td>
+	        <td id="currentPointsTeamB"></td>
+	    </tr>
+	    <tr id="currentTotal">
+	        <td>Ukupno</td>
+	        <td id="currentTotalPointsTeamA"></td>
+	        <td id="currentTotalPointsTeamB"></td>
+	    </tr>
+	    <tr id="total">
+	        <td>Rezultat</td>
+	        <td id="totalPointsTeamA"></td>
+	        <td id="totalPointsTeamB"></td>
+	    </tr>
+	</table>
+	
+	<div id="gameTable">
+        <div id="playerTable">
+            <div id="p1">
+                <p><%= playerNames[0] %></p>
+                <img id="p1card">
+            </div>
+            
+            <div id="p2p3container">
+                <div id="p2container">
+                    <p><%= playerNames[1] %></p>
+                    <img id="p2card">
+                </div>
+                <div id="p3container">
+                    <img id="p3card">
+                    <p><%= playerNames[2] %></p>
+                </div>
+            </div>
+
+            <div id="p4">
+                <img id="p4card">
+                <p><%= playerNames[3] %></p>
+            </div>
+        </div>
+        <div id="playerCards">
+
+        </div>
     </div>
 </body>
 </html>

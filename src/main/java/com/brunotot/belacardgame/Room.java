@@ -1,7 +1,15 @@
 package com.brunotot.belacardgame;
 
-public class Room {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Room {
+	
+	private List<Card> deck;
+	
 	private Player player1;
 
 	private Player player2;
@@ -24,6 +32,14 @@ public class Room {
 	
 	private boolean started;
 	
+	public List<Card> getDeck() {
+		return deck;
+	}
+
+	public void setDeck(List<Card> deck) {
+		this.deck = deck;
+	}
+
 	public boolean isStarted() {
 		return started;
 	}
@@ -135,6 +151,23 @@ public class Room {
 		this.player4 = player4;
 		this.playerToMove = this.player1;
 		this.started = false;
+		//this.deck = new ArrayList<>(getDeck);
+	}
+	
+	public Room(Player player1, Player player2, Player player3, Player player4, List<Card> deck) {
+		this.totalPointsTeam1 = 0;
+		this.totalPointsTeam2 = 0;
+		this.currentPrimePointsTeam1 = 0;
+		this.currentPrimePointsTeam2 = 0;
+		this.currentPointsTeam1 = 0;
+		this.currentPointsTeam2 = 0;
+		this.player1 = player1;
+		this.player2 = player2;
+		this.player3 = player3;
+		this.player4 = player4;
+		this.playerToMove = this.player1;
+		this.started = false;
+		this.deck = new ArrayList<>(deck);
 	}
 	
 	public boolean addPlayer(Player player) {
@@ -194,6 +227,46 @@ public class Room {
 		} else {
 			this.playerToMove = this.player1;
 		}
+	}
+
+	public Player getPlayerByNickname(String nickname) {
+		if (this.player1 != null && this.player1.getNickname().equals(nickname)) {
+			return this.player1;
+		} else if (this.player2 != null && this.player2.getNickname().equals(nickname)) {
+			return this.player2;
+		} else if (this.player3 != null && this.player3.getNickname().equals(nickname)) {
+			return this.player3;
+		} else if (this.player4 != null && this.player4.getNickname().equals(nickname)) {
+			return this.player4;
+		}
+		return null;
+	}
+	
+	public void shuffleDeck() {
+		Collections.shuffle(this.deck);
+	}
+	
+	public void dealCards() {
+		List<Card> p1Cards = this.deck.subList(0, 8);
+		p1Cards.get(0).setHidden(true);
+		p1Cards.get(1).setHidden(true);
+		
+		List<Card> p2Cards = this.deck.subList(8, 16);
+		p2Cards.get(0).setHidden(true);
+		p2Cards.get(1).setHidden(true);
+		
+		List<Card> p3Cards = this.deck.subList(16, 24);
+		p3Cards.get(0).setHidden(true);
+		p3Cards.get(1).setHidden(true);
+		
+		List<Card> p4Cards = this.deck.subList(24, 32);
+		p4Cards.get(0).setHidden(true);
+		p4Cards.get(1).setHidden(true);
+		
+		this.player1.setCards(p1Cards);
+		this.player2.setCards(p2Cards);
+		this.player3.setCards(p3Cards);
+		this.player4.setCards(p4Cards);
 	}
 	
 }

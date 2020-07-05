@@ -39,6 +39,8 @@ public class MainController {
 		Room room = rooms.get(roomId);
 		if (room != null) {
 			room.setStarted(true);
+			room.shuffleDeck();
+			room.dealCards();
 		}
 		return "true";
 	}
@@ -67,6 +69,7 @@ public class MainController {
 	@RequestMapping(value = "/game", method = RequestMethod.POST)
 	public ModelAndView gameStart(@RequestParam("roomid") String roomId, @RequestParam("nickname") String nickname) {
 		ModelAndView model = new ModelAndView();
+		
 		model.addObject("roomId", roomId);
 		model.addObject("nickname", nickname);
 		model.setViewName("game");

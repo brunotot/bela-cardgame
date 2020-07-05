@@ -1,6 +1,8 @@
 package com.brunotot.belacardgame;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Player {
@@ -15,6 +17,7 @@ public class Player {
 
 	public void setCards(List<Card> cards) {
 		this.cards = cards;
+		this.sortCards();
 	}
 
 	public String getNickname() {
@@ -31,5 +34,28 @@ public class Player {
 		this.cards = new ArrayList<>();
 	}
 	
+	public void sortCards() {
+		Collections.sort(this.cards, new Comparator<Card>() {
+            @Override
+            public int compare(Card o1, Card o2) {
+            	boolean o1Hidden = o1.isHidden();
+            	boolean o2Hidden = o2.isHidden();
+            	
+            	if (o1Hidden && !o2Hidden) {
+            		return 1;
+            	} else if (!o1Hidden && o2Hidden) {
+            		return -1;
+            	} else if (o1Hidden && o2Hidden) {
+            		return 0;
+            	}
+            	
+            	int suitComparison = o1.getSuit().compareTo(o2.getSuit());
+            	if (suitComparison == 0) {
+            		return o1.getRank().compareTo(o2.getRank());
+            	}
+                return suitComparison;
+            }
+        });
+	}
 	
 }

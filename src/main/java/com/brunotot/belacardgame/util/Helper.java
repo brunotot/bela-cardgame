@@ -1,13 +1,14 @@
 package com.brunotot.belacardgame.util;
 
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.brunotot.belacardgame.Player;
 import com.brunotot.belacardgame.Room;
+import com.google.gson.Gson;
 
 public class Helper {
 
@@ -25,6 +26,19 @@ public class Helper {
 		} else {
 			return "false";
 		}
+	}
+	
+	public static String getCards(HttpServletRequest request, String roomId, String nickname) {
+		Gson gson = new Gson();
+		Map<String, Room> rooms = (Map<String, Room>) Helper.getBean(request, "rooms");
+		Room room = rooms.get(roomId);
+		if (room != null) {
+			Player player = room.getPlayerByNickname(nickname);
+			if (player != null) {
+				return gson.toJson(player.getCards());
+			}
+		}
+		return null;
 	}
 	
 	public static String[] getPlayerNicknames(HttpServletRequest request, String roomId, String nickname) {

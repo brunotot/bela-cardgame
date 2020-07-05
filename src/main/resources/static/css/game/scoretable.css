@@ -1,0 +1,54 @@
+#tablica {
+    position: absolute;
+    right: 0;
+    top: 0;
+    min-width: 15%;
+    max-width: 15%;
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table tr td:nth-child(1) {
+    text-align: left;
+}
+
+table tr td:nth-child(2),
+table tr td:nth-child(3) {
+    text-align: center;
+}
+
+table tr td {
+    word-break: break-all;  
+    padding: 4px 10px;
+}
+
+#total {
+    background-color: rgb(224,224,224);
+}
+
+#currentTotal {
+    background-color: rgb(85,85,85); 
+    color: white;
+}
+
+#currentPoints {
+    background-color: rgb(224,224,224);
+}
+
+#currentPrimePoints {
+    background-color: rgb(224,224,224);
+}
+
+#currentTotalPointsTeamA,
+#currentTotalPointsTeamB {
+    color: white;
+}
+
+#tableHeader {
+    background-color: rgb(78, 161, 72); 
+    color: white;
+}
