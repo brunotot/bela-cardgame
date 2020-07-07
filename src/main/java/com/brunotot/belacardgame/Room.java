@@ -168,6 +168,7 @@ public class Room {
 		this.playerToMove = this.player1;
 		this.started = false;
 		this.deck = new ArrayList<>(deck);
+		this.deck.forEach(card -> card.setHidden(false));
 	}
 	
 	public boolean addPlayer(Player player) {

@@ -17,6 +17,15 @@
     <link rel="stylesheet" type="text/css" href="css/game/scoretable.css">
     <link rel="stylesheet" type="text/css" href="css/main/main.css">
     <link rel="stylesheet" type="text/css" href="css/game/gametable.css">
+    <style>
+    	img {
+    		border: 2px solid transparent;
+    	}
+    	img:hover {
+    		border: 2px solid green;
+    		cursor: pointer;
+    	}
+    </style>
 	<script>
 		window.onload = function () {
 			loadCards();
@@ -29,34 +38,45 @@
 		var stompClient = null;
 		connect();
 		
+		function playCard(card) {
+			console.log(card);
+		}
+		
 		function connect() {
 		    var socket = new SockJS('/websocket');
 		    stompClient = Stomp.over(socket);
 		    stompClient.connect({}, function (frame) {
 		    	stompClient.subscribe('/topic/game/<%= roomId %>', function (room) {
-// 		    		var button = document.getElementById('test');
-// 					var r = JSON.parse(room.body);
-// 					debugger;
-<%-- 					if (r.playerToMove.nickname.localeCompare('<%= nickname %>') === 0) { --%>
-// 						button.disabled = false;
-// 					} else {
-// 						button.disabled = true;
-// 					}
+		    		var button = document.getElementById('playerCards');
+					var r = JSON.parse(room.body);
+					if (r.playerToMove.nickname.localeCompare('<%= nickname %>') === 0) {
+						$('playerCards').click(true);
+						button.style.pointerEvents = "auto";
+						button.style.border = "2px solid green";
+					} else {
+						button.style.pointerEvents = "none";
+						button.style.border = "2px solid blue";
+					}
 		    	});
-		    });
+				stompClient.send("/app/msgGame/<%= roomId %>", {});
+			});
 		}
 		
 		function loadCards() {
 			var cards = JSON.parse('<%= Helper.getCards(request, roomId, nickname) %>');
-			debugger;
 			for (var x in cards) {
 				var card = cards[x];
 				var imagePath = "img/cards/";
 				var imageNode = document.createElement("IMG");
+				let suit = card.suit;
+				let rank = card.rank;
 				if (card.hidden) {
 					imageNode.src = imagePath + "SPUSTENA.png";	
 				} else {
 					imageNode.src = imagePath + card.rank + "_" + card.suit.charAt(0) + ".png";
+					imageNode.onclick = function() {
+						moveToNextPlayer();
+					}
 				}
 				document.getElementById('playerCards').appendChild(imageNode);
 			}
@@ -133,7 +153,7 @@
                 <p><%= playerNames[3] %></p>
             </div>
         </div>
-        <div id="playerCards">
+        <div id="playerCards" style="padding-bottom: 2px">
 
         </div>
     </div>

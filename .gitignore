@@ -29,3 +29,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+killTask8080.bat
+mvnw
+mvnw.bat
