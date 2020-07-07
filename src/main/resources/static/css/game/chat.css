@@ -1,0 +1,19 @@
+.textarea {
+    width:100%;
+    background-color:#eee;
+    overflow:hidden;
+    height:250px;
+    max-height:250px;
+    border:1px solid #ccc;
+    overflow-y: auto;
+}
+
+#message {
+    float: left; 
+    width: 80%;
+}
+
+#submitMessageButton {
+    float: left; 
+    width: 20%;
+}

@@ -1,12 +1,5 @@
-#playerCards img {
-    width: 11.5%; 
-    height: 100%;
-}
-
 #playerCards {
-    height: 25%; 
     text-align: center;
-    /*border: 2px solid lightcoral;*/
 }
 
 #gameTable {
@@ -65,4 +58,54 @@
 #p3container img {
     float: left; 
     margin-top: 7px
+}
+
+.playerBox {
+    border: 1px solid red;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+}
+
+.playerBoxP {
+    margin-top: 52.5px;
+    text-align: center;
+}
+
+.autoMargin {
+    margin: auto;
+}
+
+.container-center{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#tableArea {
+    text-align: center; 
+    background-color: white; 
+    border: 2px solid yellow;
+    border-radius: 75px; 
+    height: 440px;
+}
+
+.player0Style {
+    width: 100%; 
+    text-align: center;
+    padding-top: 2px;
+}
+
+.player12Style {
+    margin-top: -100px;
+}
+
+.player3Style {
+    position: absolute; 
+    bottom: 2px;
+    left: 0;
+    right: 0;
 }

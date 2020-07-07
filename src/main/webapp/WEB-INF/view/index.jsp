@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Bela card game</title>
+	<meta charset="ISO-8859-1">
+	<title>Bela card game</title>
+    <link rel="stylesheet" type="text/css" href="css/main/main.css">
 </head>
 <body>
 	

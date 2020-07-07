@@ -1,10 +1,5 @@
-#tablica {
-    position: absolute;
-    right: 0;
-    top: 0;
-    min-width: 15%;
-    max-width: 15%;
-    text-align: center;
+#scoreTable {
+    width: 100%;
 }
 
 table, th, td {

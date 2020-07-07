@@ -9,6 +9,7 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Waiting room</title>
+    <link rel="stylesheet" type="text/css" href="css/main/main.css">
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
