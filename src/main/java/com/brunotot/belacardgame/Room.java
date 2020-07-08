@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.brunotot.belacardgame.util.Constants;
 
 public class Room {
 	
@@ -18,6 +18,10 @@ public class Room {
 
 	private Player player4;
 
+	private Player dealer;
+	
+	private Player caller;
+	
 	private int totalPointsTeam1;
 
 	private int totalPointsTeam2;
@@ -30,8 +34,34 @@ public class Room {
 
 	private int currentPrimePointsTeam2;
 	
+	private CardSuit adut;
+	
 	private boolean started;
 	
+	public Player getCaller() {
+		return caller;
+	}
+
+	public void setCaller(Player caller) {
+		this.caller = caller;
+	}
+
+	public CardSuit getAdut() {
+		return adut;
+	}
+
+	public void setAdut(CardSuit adut) {
+		this.adut = adut;
+	}
+
+	public Player getDealer() {
+		return this.dealer;
+	}
+
+	public void setDealer(Player dealer) {
+		this.dealer = dealer;
+	}
+
 	public List<Card> getDeck() {
 		return deck;
 	}
@@ -49,6 +79,12 @@ public class Room {
 	}
 
 	private Player playerToMove;
+
+	private int currentState;
+	
+	public void setCurrentState(int currentState) {
+		this.currentState = currentState;
+	}
 	
 	public Player getPlayerToMove() {
 		return playerToMove;
@@ -151,6 +187,10 @@ public class Room {
 		this.player4 = player4;
 		this.playerToMove = this.player1;
 		this.started = false;
+		this.currentState = Constants.BIRANJE_ADUTA;
+		this.dealer = this.player4;
+		this.adut = null;
+		this.caller = null;
 		//this.deck = new ArrayList<>(getDeck);
 	}
 	
@@ -169,6 +209,10 @@ public class Room {
 		this.started = false;
 		this.deck = new ArrayList<>(deck);
 		this.deck.forEach(card -> card.setHidden(false));
+		this.currentState = Constants.BIRANJE_ADUTA;
+		this.dealer = this.player4;
+		this.adut = null;
+		this.caller = null;
 	}
 	
 	public boolean addPlayer(Player player) {
@@ -229,6 +273,18 @@ public class Room {
 			this.playerToMove = this.player1;
 		}
 	}
+	
+	public Player getFirstPlayer() {
+		if (this.dealer == this.player1) {
+			return this.player2;
+		} else if (this.dealer == this.player2) {
+			return this.player3;
+		} else if (this.dealer == this.player3) {
+			return this.player4;
+		} else {
+			return this.player1;
+		}
+	}
 
 	public Player getPlayerByNickname(String nickname) {
 		if (this.player1 != null && this.player1.getNickname().equals(nickname)) {
@@ -268,6 +324,28 @@ public class Room {
 		this.player2.setCards(p2Cards);
 		this.player3.setCards(p3Cards);
 		this.player4.setCards(p4Cards);
+	}
+
+	public int getCurrentState() {
+		return this.currentState;
+	}
+
+	public void showAllCards() {
+		List<Card> cardsPlayer1 = this.player1.getCards();
+		cardsPlayer1.forEach(card -> card.setHidden(false));
+		this.player1.setCards(cardsPlayer1);
+		
+		List<Card> cardsPlayer2 = this.player2.getCards();
+		cardsPlayer2.forEach(card -> card.setHidden(false));
+		this.player2.setCards(cardsPlayer2);
+		
+		List<Card> cardsPlayer3 = this.player3.getCards();
+		cardsPlayer3.forEach(card -> card.setHidden(false));
+		this.player3.setCards(cardsPlayer3);
+		
+		List<Card> cardsPlayer4 = this.player4.getCards();
+		cardsPlayer4.forEach(card -> card.setHidden(false));
+		this.player4.setCards(cardsPlayer4);
 	}
 	
 }

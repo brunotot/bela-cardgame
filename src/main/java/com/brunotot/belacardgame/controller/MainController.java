@@ -41,6 +41,7 @@ public class MainController {
 			room.setStarted(true);
 			room.shuffleDeck();
 			room.dealCards();
+			room.setDealer(room.getPlayer4());
 			rooms.put(roomId, room);
 		}
 		return "true";

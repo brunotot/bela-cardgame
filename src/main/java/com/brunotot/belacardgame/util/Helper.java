@@ -55,4 +55,10 @@ public class Helper {
 		}
 	}
 	
+	public static int getCurrentState(HttpServletRequest request, String roomId) {
+		Map<String, Room> rooms = (Map<String, Room>) Helper.getBean(request, "rooms");
+		Room room = rooms.get(roomId);
+		return room.getCurrentState();
+	}
+	
 }

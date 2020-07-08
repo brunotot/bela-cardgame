@@ -55,6 +55,10 @@ public class Card {
 	public String getCardImagePath() {
 		return "img/cards/" + this.rank + "_" + this.suit + ".png";
 	}
+	
+	public String getCardImageIdentification() {
+		return this.rank + "." + this.suit;
+	}
 
 	public Card(CardSuit suit, CardRank rank, float normalValue, float primeValue) {
 		super();
