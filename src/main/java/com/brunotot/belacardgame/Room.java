@@ -1,7 +1,6 @@
 package com.brunotot.belacardgame;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.brunotot.belacardgame.util.Constants;
@@ -34,10 +33,46 @@ public class Room {
 
 	private int currentPrimePointsTeam2;
 	
+	private Zvanje zvanjeTeam1;
+	
+	private Zvanje zvanjeTeam2;
+	
 	private CardSuit adut;
 	
 	private boolean started;
 	
+	public Zvanje getTeamZvanjeByPlayerNickname(String nickname) {
+		if (this.player1.getNickname().equals(nickname) || this.player3.getNickname().equals(nickname)) {
+			return this.zvanjeTeam1;
+		} else {
+			return this.zvanjeTeam2;
+		}
+	}
+	
+	public void setTeamZvanjeByPlayerNickname(String nickname, Zvanje zvanje) {
+		if (this.player1.getNickname().equals(nickname) || this.player3.getNickname().equals(nickname)) {
+			this.zvanjeTeam1 = zvanje;
+		} else {
+			this.zvanjeTeam2 = zvanje;
+		}
+	}
+	
+	public Zvanje getZvanjeTeam1() {
+		return zvanjeTeam1;
+	}
+
+	public Zvanje getZvanjeTeam2() {
+		return zvanjeTeam2;
+	}
+
+	public void setZvanjeTeam1(Zvanje zvanjeTeam1) {
+		this.zvanjeTeam1 = zvanjeTeam1;
+	}
+
+	public void setZvanjeTeam2(Zvanje zvanjeTeam2) {
+		this.zvanjeTeam2 = zvanjeTeam2;
+	}
+
 	public Player getCaller() {
 		return caller;
 	}
@@ -191,6 +226,8 @@ public class Room {
 		this.dealer = this.player4;
 		this.adut = null;
 		this.caller = null;
+		this.zvanjeTeam1 = new Zvanje();
+		this.zvanjeTeam2 = new Zvanje();
 		//this.deck = new ArrayList<>(getDeck);
 	}
 	
@@ -213,6 +250,8 @@ public class Room {
 		this.dealer = this.player4;
 		this.adut = null;
 		this.caller = null;
+		this.zvanjeTeam1 = new Zvanje();
+		this.zvanjeTeam2 = new Zvanje();
 	}
 	
 	public boolean addPlayer(Player player) {
@@ -300,7 +339,7 @@ public class Room {
 	}
 	
 	public void shuffleDeck() {
-		Collections.shuffle(this.deck);
+		//Collections.shuffle(this.deck);
 	}
 	
 	public void dealCards() {

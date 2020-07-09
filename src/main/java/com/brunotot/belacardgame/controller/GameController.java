@@ -1,5 +1,6 @@
 package com.brunotot.belacardgame.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,9 @@ import com.brunotot.belacardgame.Card;
 import com.brunotot.belacardgame.CardSuit;
 import com.brunotot.belacardgame.Player;
 import com.brunotot.belacardgame.Room;
+import com.brunotot.belacardgame.Zvanje;
 import com.brunotot.belacardgame.util.Constants;
+import com.brunotot.belacardgame.util.Helper;
 import com.google.gson.Gson;
 
 @Controller
@@ -54,6 +57,37 @@ public class GameController {
 	public String remove(@RequestParam("roomId") String roomId) {
 		rooms.remove(roomId);
 		return "true";
+	}
+	
+	@PostMapping("/isZvanjeValid")
+	@ResponseBody
+	public String isZvanjeValid(@RequestParam("roomId") String roomId, @RequestParam("nickname") String nickname, @RequestParam("cards") String cardsJson) {
+		Gson gson = new Gson();
+		Room room = rooms.get(roomId);
+		Player player = room.getPlayerByNickname(nickname);
+		String[] cardsString = gson.fromJson(cardsJson, String[].class);
+		List<Card> cards = new ArrayList<>();
+		for (String src : cardsString) {
+			int index = 0;
+			for (int i = src.length() - 1; i >= 0; i--) {
+				if (src.charAt(i) == '/') {
+					index = i;
+					break;
+				}
+			}
+			String cardNameWithExtension = src.substring(index + 1);
+			String cardNameWithoutExtension = cardNameWithExtension.split("\\.")[0];
+			String[] params = cardNameWithoutExtension.split("_");
+			Card card = Helper.getCardFromPlayerByName(params, player);
+			cards.add(card);
+		}
+
+		Zvanje zvanje = room.getTeamZvanjeByPlayerNickname(nickname);
+		if (zvanje.add(cards)) {
+			return "true";
+		}
+		
+		return "false";
 	}
 	
 	@PostMapping("/getCards")

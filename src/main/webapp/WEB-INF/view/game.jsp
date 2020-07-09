@@ -143,11 +143,46 @@
 						} else {
 							imageNode.style.marginTop = "0";
 						}
-					} else {
+					} else if (event === "zovi") {
+						var cards = [];
 						var children = document.getElementsByClassName('customCard');
 						for (i = 0; i < children.length; i++) {
-							children[i].style.marginTop = "0";
+							var child = children[i];
+							if (children[i].style.marginTop === "-20px") {
+								cards.push(children[i].src);
+								children[i].style.marginTop = "0";
+							}
 						}
+						$.ajax({
+			                url: '/game/isZvanjeValid',
+			                type: 'post',
+			                data: {
+			                	'roomId': '<%= roomId %>',
+			                	'nickname': '<%= nickname %>',
+			                	'cards': JSON.stringify(cards)
+			                },
+			                success:function(data) {
+								if (data === "true") { // validno zvanje
+									$.ajax({
+						                url: '/game/moveToNextPlayer',
+						                type: 'post',
+						                data: {
+						                	'roomId': '<%= roomId %>',
+						                	'nickname': '<%= nickname %>',
+						                	'event': event
+						                },
+						                success:function(data) { 
+											if (data) {
+												stompClient.send("/app/msgGame/<%= roomId %>", {});
+											}
+						                }
+									});
+								} else { // invalidno zvanje
+									alert("Nevazece zvanje!");
+								}
+			                }
+						});
+					} else {
 						$.ajax({
 			                url: '/game/moveToNextPlayer',
 			                type: 'post',
